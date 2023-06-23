@@ -1,4 +1,4 @@
-name: quote_disp test
+name: test2
 
 on:
   push:
@@ -39,15 +39,12 @@ jobs:
           python -m pip install pytest pytest-cov
           python -m pip install -r requirements.txt
         
-
-      - name: Run tests with coverage and print output
+      - name: Run tests with coverage
         run: |
           python -m pytest --cov=./ --cov-report=xml:coverage.xml --cov-report=term-missing > pytest-coverage.txt --junitxml=./pytest.xml
-          cat pytest-coverage.txt
-
 
       - name: Pytest coverage comment
         uses: MishaKav/pytest-coverage-comment@main
         with:
-          pytest-coverage-path:  ./quote_disp/pytest-coverage.txt
-          junitxml-path:  ./quote_disp/pytest.xml
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml
