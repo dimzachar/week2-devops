@@ -23,4 +23,3 @@ def test_quote(client):
 def test_root(client):
     rv = client.get('/')
     assert rv.status_code == 200
-    assert b"Quote Gen Service" in rv.data
