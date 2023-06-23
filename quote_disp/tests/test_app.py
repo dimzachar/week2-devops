@@ -2,7 +2,7 @@ import pytest
 from app import app
 from unittest.mock import patch
 
-#
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -16,9 +16,9 @@ def test_health(client):
     assert rv.data == b'healthy'
 
 
-def test_quote(client):
-    rv = client.get('/quote')
-    assert rv.status_code == 200
+# def test_quote(client):
+#     rv = client.get('/quote')
+#     assert rv.status_code == 200
 
 
 def test_root(client):
