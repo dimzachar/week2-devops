@@ -1,0 +1,50 @@
+name: test1
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: quote_gen
+
+    steps:
+      - name: Check out repo code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pytest-cov
+          python -m pip install -r requirements.txt
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest --cov=./ --cov-report=xml:coverage.xml --cov-report=term-missing > pytest-coverage.txt --junitxml=./pytest.xml
+
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: quote_gen/pytest-coverage.txt
+          junitxml-path: quote_gen/pytest.xml
