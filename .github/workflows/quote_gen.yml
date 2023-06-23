@@ -1,4 +1,4 @@
-name: test
+name: quote_gen
 
 on:
   push:
